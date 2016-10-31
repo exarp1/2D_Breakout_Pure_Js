@@ -15,6 +15,17 @@
 
 <script>
 	// JavaScript code goes here
+	// Grab reference to the canvas for scripting
+	var canvas = document.getElementById("myCanvas");
+	var ctx    = canvas.getContext("2d");
+
+	// Demo: red square
+	ctx.beginPath();
+	ctx.rect(20, 40, 50, 50);
+	ctx.fillStle = "#FF0000";
+	ctx.fill();
+	ctx.closePath();
+
 </script>
 
 </body>

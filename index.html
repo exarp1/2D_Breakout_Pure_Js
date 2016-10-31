@@ -42,11 +42,11 @@
 	function collisionDetect() {
 
 		// Reverse X-Axis direction if we hit right/left edge of our canvas 'box'
-		if (x + dx > right || left) {
+		if (x + dx > right || x + dx < ballRadius) {
 			dx = -dx;
 		}
 		// Reverse Y-Axis direction if we hit top/bottom edge of our canvas 'box'
-		if (y + dy > bottom || top) {
+		if (y + dy > bottom || x + dx < ballRadius) {
 			dy = -dy;
 		}
 

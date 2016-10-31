@@ -33,6 +33,14 @@
 	ctx.fill();
 	ctx.closePath();
 
+	// Demo: blue Rectangle (stroke - not fill).
+	ctx.beginPath();
+	ctx.rect(160, 10, 100, 40);
+	// We use stroke style here instead
+	ctx.strokeStyle = 'rgba(0, 0, 255, 0.5)";
+	ctx.stroke();
+	ctx.closePath();
+
 </script>
 
 </body>

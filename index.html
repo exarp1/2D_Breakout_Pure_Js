@@ -24,26 +24,43 @@
 	var dy			= -3;
 	var ballRadius = 10;
 	var interval = 10;
+	var color = "#FFAA00";
 
 // Draw a ball 
 	function drawBall() {
 		ctx.beginPath();
 		ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-		ctx.fillStyle = "#0095DD";
+		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.closePath();
 	}
+
+	// change color on impact
+	function changeColor() {
+		min = Math.ceil(0x00);
+		max = Math.floor(0xFF);
+
+		r = Number(Math.floor(Math.random() * (max - min)) + min).toString(16);
+		g = Number(Math.floor(Math.random() * (max - min)) + min).toString(16);
+		b = Number(Math.floor(Math.random() * (max - min)) + min).toString(16);
+
+		color = "#" + r + g + b;
+		return color;
+	}
 	
 	// Keep animated ball from leaving our canvas 'box'
-	function collisionDetect() {
+	function collisionDetect(color) {
 
 		// Reverse X-Axis direction if we hit right/left edge of our canvas 'box'
 		if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
 			dx = -dx;
+			changeColor(color);
 		}
+
 		// Reverse Y-Axis direction if we hit top/bottom edge of our canvas 'box'
 		if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
 			dy = -dy;
+			changeColor(color);
 		}
 
 		// Move the ball accordingly
@@ -51,12 +68,13 @@
 		y += dy;
 	}
 
+
 	// Animate the ball - yay!
 	function draw() {
 		// clear canvas before each redraw 
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawBall();
-		collisionDetect();
+		collisionDetect(color);
 	}
 
 	setInterval(draw, interval);

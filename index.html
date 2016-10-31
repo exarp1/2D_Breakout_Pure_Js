@@ -22,25 +22,49 @@
 	var y				= canvas.height - 30;
 	var dx			= 1;
 	var dy			= -3;
+	var ballRadius = 10;
+	var interval = 10;
+	var top 		= y + dy < ballRadius;
+	var bottom  = canvas.height - ballRadius;
+	var left    = x + dx < ballRadius;
+	var right   = canvas.width - ballRadius;
 
-// Draw a ball and loop it.
+// Draw a ball 
 	function drawBall() {
 		ctx.beginPath();
-		ctx.arc(x, y, 10, 0, Math.PI*2);
+		ctx.arc(x, y, ballRadius, 0, Math.PI*2);
 		ctx.fillStyle = "#0095DD";
 		ctx.fill();
 		ctx.closePath();
 	}
+	
+	// Keep animated ball from leaving our canvas 'box'
+	function collisionDetect() {
 
+		// Reverse X-Axis direction if we hit right/left edge of our canvas 'box'
+		if ( x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+			dx = -dx;
+		}
+
+		// Reverse Y-Axis direction if we hit top/bottom edge of our canvas 'box'
+		if ( y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+			dy = -dy;
+		}
+
+		x += dx;
+		y += dy;
+
+	}
+
+	// Animate the ball - yay!
 	function draw() {
 		// clear canvas before each redraw 
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		drawBall();
-		x += dx;
-		y += dy;
+		collisionDetect();
 	}
 
-	setInterval(draw, 100);
+	setInterval(draw, interval);
 
 </script>
 

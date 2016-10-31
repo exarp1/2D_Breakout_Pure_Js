@@ -20,8 +20,8 @@
 	var ctx			= canvas.getContext("2d");
 	var x				= canvas.width / 2;
 	var y				= canvas.height - 30;
-	var dx			= 2;
-	var dy			= -2;
+	var dx			= 1;
+	var dy			= -3;
 
 // Draw a ball and loop it.
 	function drawBall() {
@@ -40,7 +40,7 @@
 		y += dy;
 	}
 
-	setInterval(draw, 10);
+	setInterval(draw, 100);
 
 </script>
 

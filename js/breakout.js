@@ -1,33 +1,31 @@
 // JavaScript code goes here
 // Grab reference to the canvas for scripting
-var canvas	= document.getElementById("myCanvas");
-var ctx			= canvas.getContext("2d");
-var x				= canvas.width / 2;
-var y				= canvas.height - 30;
-var dx			= 1;
-var dy			= -3;
-var c 			= 0;
-var r 			= 0;
-var ballRadius = 10;
-var interval = 10;
-var color = "#FFAA00";
-var paddleHeight = 10;
-var paddleWidth = 75;
-var paddleX = (canvas.width - paddleWidth) / 2;
-var rightPressed = false;
-var leftPressed = false;
+var canvas							= document.getElementById("myCanvas");
+var ctx									= canvas.getContext("2d");
+var ballRadius					= 10;
+var x										= canvas.width / 2;
+var y										= canvas.height - 30;
+var dx									= 2;
+var dy									= -2;
+var c										= 0;
+var r										= 0;
+var color								= "#FFAA00";
+var paddleHeight				= 10;
+var paddleWidth					= 75;
+var paddleX							= (canvas.width - paddleWidth) / 2;
+var rightPressed				= false;
+var leftPressed					= false;
 
 // Brick information
-var brickRowCount = 3;
-var brickColumnCount = 5;
-var brickWidth = 75;
-var brickHeight = 20;
-var brickPadding = 10;
-var brickOffsetTop = 30;
-var brickOffsetLeft = 30;
-
-// Score information
-var score = 0;
+var brickRowCount 			= 3;
+var brickColumnCount 		= 5;
+var brickWidth 					= 75;
+var brickHeight 				= 20;
+var brickPadding 				= 10;
+var brickOffsetTop 			= 30;
+var brickOffsetLeft 		= 30;
+var score								= 0;
+var lives								= 3;
 
 // Create the set of bricks we will draw.
 var bricks = [];
@@ -89,12 +87,6 @@ function collisionDetection() {
 	}
 }
 
-// draw the score
-function drawScore() {
-	ctx.font = '16px Arial';
-	ctx.fillstyle = '#0095dd';
-	ctx.fillText('Score: ' + score, 8, 20);
-}
 
 // Draw a ball 
 function drawBall() {
@@ -136,6 +128,19 @@ function drawBricks() {
 		}
 	}
 }
+// draw the score
+function drawScore() {
+	ctx.font = '16px Arial';
+	ctx.fillstyle = '#0095dd';
+	ctx.fillText('Score: ' + score, 8, 20);
+}
+
+// deal with lives
+function drawLives() {
+	ctx.font = '16px Arial';
+	ctx.fillStyle = '#0095dd';
+	ctx.fillText('Lives: ' + lives, canvas.width - 65, 20);
+}
 
 // change color on impact
 function changeColor() {
@@ -163,14 +168,19 @@ function collisionDetect(color) {
 		if(x > paddleX && x < paddleX + paddleWidth) {
 			dy = -dy;
 		} else {
-			alert("GAME OVER");
-			document.location.reload();
+			lives--;
+			if(!lives) {
+				alert("GAME OVER");
+				document.location.reload();
+			} else {
+				x = canvas.width / 2;
+				y = canvas.height - 30;
+				dx = 3;
+				dy = -3;
+				paddleX = (canvas.width - paddleWidth) / 2;
+			}
 		}
 	}
-
-	// Move the ball accordingly
-	x += dx;
-	y += dy;
 }
 
 
@@ -182,6 +192,7 @@ function draw() {
 	drawBall();
 	drawPaddle();
 	drawScore();
+	drawLives();
 	collisionDetection();
 	collisionDetect(color);
 	if(rightPressed && paddleX < canvas.width-paddleWidth) {
@@ -189,7 +200,11 @@ function draw() {
 	} else if(leftPressed && paddleX > 0) {
 		paddleX -= 7;
 	}
+
+	// Move the ball accordingly
+	x += dx;
+	y += dy;
+	requestAnimationFrame(draw);
 }
 
-
-setInterval(draw, interval);
+draw();
